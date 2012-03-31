@@ -1,32 +1,32 @@
 package br.usp.mobile.bandejao;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 
 @Resource
 public class BandejaoController {
-	private ComentariosBandejao comentarios;
 	private Result result;
 	private List<Comentario> comentariosMock;
 	private Collection<String> bandejoes;
+	private ComentarioDAO dao;
 
-	public BandejaoController(ComentariosBandejao comentarios, Result result) {
-		this.comentarios = comentarios;
+	public BandejaoController(Result result, ComentarioDAO dao) {
 		this.result = result;
+		this.dao = dao;
 		bandejoes = new HashSet<String>();
 		for(Bandejoes bandejao : Bandejoes.values()) {
 			bandejoes.add(bandejao.getNome());
 		}
-		comentariosMock = Arrays.asList(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA), 
-										new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA));
+		inicializaMock();
 	}
 	
 	@Path("/bandejao")
@@ -35,23 +35,54 @@ public class BandejaoController {
 		result.use(Results.json()).from(bandejoes).serialize();
 	}
 	
-	@Path("/bandejao/{nome}/add")
+	@Path("/bandejao/{nome}")
+	@Post
 	public void adiciona(Comentario comentario, String nome) {
-		comentarios.adiciona(comentario, nome);
-		result.nothing();
+		if(isMock(nome)) {
+			if(comentariosMock.size() > 500) {
+				inicializaMock();
+			}
+			comentario.setBandejao(nome);
+			comentariosMock.add(comentario);
+			
+			result.nothing();
+		}
+		else if(bandejaoValido(nome)) {
+			comentario.setBandejao(nome);
+			dao.insere(comentario);
+			
+			result.nothing();
+		}
+		else {
+			result.notFound();
+		}
 	}
 	
 	@Path("/bandejao/{nome}")
 	@Get
 	public void lista(String nome) {
-		if(nome.equals("mock")) {
+		if(isMock(nome)) {
 			result.use(Results.json()).from(comentariosMock).serialize();
 		}
-		else if(bandejaoValido(nome))
-		result.use(Results.json()).from(comentarios.getComentarios(nome)).serialize();
+		else if(bandejaoValido(nome)) {
+			result.use(Results.json()).from(dao.listaComentariosDo(nome)).serialize();
+		}
+		else {
+			result.notFound();
+		}
+	}
+
+	private boolean isMock(String nome) {
+		return "mock".equals(nome);
 	}
 
 	private boolean bandejaoValido(String nome) {
 		return bandejoes.contains(nome);
+	}
+	
+	private void inicializaMock() {
+		comentariosMock = new ArrayList<Comentario>();
+		comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA));
+		comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA));
 	}
 }
