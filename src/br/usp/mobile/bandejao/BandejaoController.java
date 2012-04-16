@@ -1,6 +1,7 @@
 package br.usp.mobile.bandejao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ public class BandejaoController {
 	@Path("/bandejao/{nome}")
 	@Post
 	public void adiciona(Comentario comentario, String nome) {
+		comentario.setHora(Calendar.getInstance());
 		if(isMock(nome)) {
 			if(comentariosMock.size() > 500) {
 				inicializaMock();
@@ -62,14 +64,38 @@ public class BandejaoController {
 	@Get
 	public void lista(String nome) {
 		if(isMock(nome)) {
-			result.use(Results.json()).from(comentariosMock).serialize();
+			result.use(Results.http()).body(criaStringDeJSON(comentariosMock));
 		}
 		else if(bandejaoValido(nome)) {
-			result.use(Results.json()).from(dao.listaComentariosDo(nome)).serialize();
+			result.use(Results.http()).body(criaStringDeJSON(dao.listaComentariosAtuaisDo(nome)));
 		}
 		else {
 			result.notFound();
 		}
+	}
+
+	private String criaStringDeJSON(List<Comentario> comentarios) {
+		boolean primeiro = true;
+		StringBuilder jsonBuilder = new StringBuilder();
+		jsonBuilder.append("{\"list\":[");
+		for (Comentario comentario : comentarios) {
+			if(primeiro) {
+				primeiro = false;
+			}
+			else {
+				jsonBuilder.append(",");
+			}
+			jsonBuilder.append("{\"texto\":\"" + 
+								comentario.getTexto() + 
+								"\",\"hora\":\"" + 
+								comentario.getHoraFormatada() + 
+								"\",\"fila\":\"" +
+								comentario.getFila() +
+								"\"}");
+			
+		}
+		jsonBuilder.append("]}");
+		return jsonBuilder.toString();
 	}
 
 	private boolean isMock(String nome) {

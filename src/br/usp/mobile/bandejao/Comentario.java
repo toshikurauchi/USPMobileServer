@@ -1,5 +1,8 @@
 package br.usp.mobile.bandejao;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,9 +21,9 @@ public class Comentario {
 	@Enumerated(EnumType.STRING)
 	private TamanhoDaFila fila;
 	private String bandejao;
+	private Calendar hora;
 
 	public Comentario() {
-		
 	}
 	
 	public Comentario(String texto, TamanhoDaFila fila) {
@@ -40,7 +43,40 @@ public class Comentario {
 		this.fila = fila;
 	}
 
+	public void setHora(Calendar hora) {
+		this.hora = hora;
+	}
+	
 	public String getBandejao() {
 		return bandejao;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public TamanhoDaFila getFila() {
+		return fila;
+	}
+
+	public Calendar getHora() {
+		return hora;
+	}
+
+	public String getHoraFormatada() {
+		if(hora == null) {
+			return "";
+		}
+		return new SimpleDateFormat("ss-mm-HH-dd-MM-yy").format(hora.getTime());
+	}
+	
+	
 }

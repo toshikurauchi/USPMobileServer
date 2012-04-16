@@ -1,5 +1,6 @@
 package br.usp.mobile.bandejao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -18,9 +19,15 @@ public class ComentarioDAO {
 		session.save(comentario);
 	}
 
-	public List<Comentario> listaComentariosDo(String nome) {
-		return session.createQuery("from Comentario as c where c.bandejao = :bandejao")
+	public List<Comentario> listaComentariosAtuaisDo(String nome) {
+		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		return session.createQuery("from Comentario as c " +
+								   "where c.bandejao = :bandejao and " +
+								         "c.hora >= :inicioPeriodo and " +
+								         "c.hora < :fimPeriodo")
 				.setParameter("bandejao", nome)
+				.setParameter("inicioPeriodo", periodo.getInicioHoje())
+				.setParameter("fimPeriodo", periodo.getFimHoje())
 				.list();
 	}
 }
