@@ -108,7 +108,7 @@ public class BandejaoController {
 	
 	private void inicializaMock() {
 		comentariosMock = new ArrayList<Comentario>();
-		comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA));
-		comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA));
+		comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA, Calendar.getInstance()));
+		comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA, Calendar.getInstance()));
 	}
 }

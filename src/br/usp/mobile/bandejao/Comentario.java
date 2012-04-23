@@ -23,12 +23,13 @@ public class Comentario {
 	private String bandejao;
 	private Calendar hora;
 
-	public Comentario() {
-	}
-	
-	public Comentario(String texto, TamanhoDaFila fila) {
+	public Comentario(String texto, TamanhoDaFila fila, Calendar hora) {
 		this.texto = texto;
 		this.fila = fila;
+		this.hora = hora;
+	}
+
+	public Comentario() {
 	}
 
 	public void setTexto(String texto) {

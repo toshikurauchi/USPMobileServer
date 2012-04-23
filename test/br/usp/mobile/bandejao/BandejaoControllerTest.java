@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -51,7 +52,7 @@ public class BandejaoControllerTest {
 	
 	@Test
 	public void adicionaComentarioComNomeDoBandejao() throws Exception {
-		Comentario comentario = new Comentario("Comida muito boa!", TamanhoDaFila.MUITO_GRANDE);
+		Comentario comentario = new Comentario("Comida muito boa!", TamanhoDaFila.MUITO_GRANDE, Calendar.getInstance());
 		String central = Bandejoes.CENTRAL.getNome();
 		controller.adiciona(comentario, central);
 		verify(dao).insere(comentario);
@@ -60,7 +61,7 @@ public class BandejaoControllerTest {
 	
 	@Test
 	public void naoAdicionaComentarioEmBandejaoInvalidoEDaNotFound() throws Exception {
-		Comentario comentario = new Comentario("Comida muito boa!", TamanhoDaFila.MUITO_GRANDE);
+		Comentario comentario = new Comentario("Comida muito boa!", TamanhoDaFila.MUITO_GRANDE, Calendar.getInstance());
 		controller.adiciona(comentario, "bandejao invalido");
 		verify(dao, never()).insere(comentario);
 		verify(result).notFound();
