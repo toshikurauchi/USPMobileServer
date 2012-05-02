@@ -20,5 +20,6 @@
 		<property name="c3p0.timeout">100</property> <!-- seconds --> 
 		
 		<mapping class="br.usp.mobile.bandejao.Comentario" />
+		<mapping class="br.usp.mobile.portao.ComentarioDoPortao" />
 	</session-factory>
 </hibernate-configuration>
