@@ -7,12 +7,17 @@
 table {
 	width: 70%;
 }
+td {
+	border: 1px solid #999;
+}
 </style>
 </head>
 <body>
 	<h2>URLs disponíveis</h2>
 	
-	<h3>Lista dos Bandejões</h3>
+	<h3>Bandejão</h3>
+	
+	<h4>Lista dos Bandejões</h4>
 	<table>
 		<tr>
 			<td>URL:</td>
@@ -28,7 +33,7 @@ table {
 		</tr>
 	</table>
 	
-	<h3>Lista dos comentários do bandejão</h3>
+	<h4>Lista dos comentários do bandejão</h4>
 	<table>
 		<tr>
 			<td>URL:</td>
@@ -48,7 +53,7 @@ table {
 		</tr>
 	</table>
 	
-	<h3>Adicionar comentário</h3>
+	<h4>Adicionar comentário</h4>
 	<table>
 		<tr>
 			<td>URL:</td>
@@ -67,6 +72,57 @@ table {
 			<td>Formato:</td>
 			<td>comentario.fila=<b>TAMANHO</b>&comentario.texto=seu comentário</td>
 			<td><b>TAMANHO</b> conforme definido no JSON de resposta da lista de comentários</td>
+		</tr>
+	</table>
+	
+	<h3>Portões</h3>
+	
+	<h4>Adicionar comentário do portão</h4>
+	<table>
+		<tr>
+			<td>URL:</td>
+			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b></td>
+			<td><b>NUMERO</b> é o número do portão (1,2,3)</td>
+		</tr>
+		<tr>
+			<td>Método HTTP:</td>
+			<td>POST</td>
+		</tr>
+		<tr>
+			<td>Content-type:</td>
+			<td>application/x-www-form-urlencoded</td>
+		</tr>
+		<tr>
+			<td>Formato (TODOS os parâmetros são opcionais!):</td>
+			<td>comentario.timestamp=<b>TIMESTAMP</b>&comentario.latitude=<b>LATITUDE</b>&comentario.longitude=<b>LONGITUDE</b>&comentario.comentario=algum comentário</td>
+			<td><b>TIMESTAMP</b> timestamp em milisegundos do comentário (se não for fornecido será utilizada a hora de chegada no servidor)</td>
+			<td><b>LATITUDE</b> e <b>LONGITUDE</b> doubles com a latitude e a longitude do momento do comentário</td>
+		</tr>
+	</table>
+	
+	<h4>Lista dos comentários do portão</h4>
+	<table>
+		<tr>
+			<td>URL:</td>
+			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b></td>
+			<td><b>NUMERO</b> é o número do portão (1,2,3)</td>
+		</tr>
+		<tr>
+			<td>Método HTTP:</td>
+			<td>GET</td>
+		</tr>
+		<tr>
+			<td>Parâmetro opcional:</td>
+			<td>aPartirDe=<b>TIMESTAMP</b></td>
+			<td><b>TIMESTAMP</b> é um valor em milisegundos. Serão listados todos os comentários desse portão a partir desse <b>TIMESTAMP</b>. Caso esse parâmetro não seja fornecido serão listados os comentários da última hora.</td>
+		</tr>
+		<tr>
+			<td>JSON de resposta:</td>
+			<td>{"list":[{"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>, "latitude":<b>LATITUDE</b>, "longitude":<b>LONGITUDE</b>, "comentario":"algum comentario"}, {"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>}]}</td>
+			<td><b>NUMERO_DO_PORTAO</b> é 1, 2, ou 3</td>
+			<td><b>TIMESTAMP</b> é o timestamp em milisegundos do comentário</td>
+			<td><b>LATITUDE</b> e <b>LONGITUDE</b> são os valores na hora do comentário (tipo double)</td>
+			<td>Os únicos valores que sempre estarão presentes são o número do portão e o timestamp. Todos os outros valores são opcionais.</td>
 		</tr>
 	</table>
 </body>
