@@ -19,16 +19,19 @@ public class PortaoDAO {
 		session.save(comentario);
 	}
 
-	public List<ComentarioDoPortao> listaComentariosDoPortaoDaUltimaHora(int numero) {
-		return listaComentariosDoPortaoAPartirDe(numero, System.currentTimeMillis() - 1000*60*60);
+	public List<ComentarioDoPortao> listaComentariosDoPortaoDaUltimaHora(int numero, Sentido sentido) {
+		return listaComentariosDoPortaoAPartirDe(numero, System.currentTimeMillis() - 1000*60*60, sentido);
 	}
 	
-	public List<ComentarioDoPortao> listaComentariosDoPortaoAPartirDe(int numero, long timestamp) {
+	public List<ComentarioDoPortao> listaComentariosDoPortaoAPartirDe(int numero, long timestamp, Sentido sentido) {
 		return session.createQuery("from ComentarioDoPortao as c " +
 						    "where c.numero = :numero and " +
-						        "c.timestamp >= :timestamp")
+						          "c.timestamp >= :timestamp" +
+						    	  "c.sentido = :sentido")
 	        .setParameter("numero", numero)
-	        .setParameter("timestamp", timestamp).list();
+	        .setParameter("timestamp", timestamp)
+	        .setParameter("sentido", sentido)
+	        .list();
 	}
 
 }

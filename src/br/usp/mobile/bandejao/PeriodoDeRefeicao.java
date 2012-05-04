@@ -5,9 +5,9 @@ import java.util.Calendar;
 import br.usp.mobile.bandejao.calendar.CalendarUtil;
 
 public enum PeriodoDeRefeicao {
-	MANHA(0, 11),
-	TARDE(11, 16),
-	NOITE(16, 24);
+	CAFE(0, 11),
+	ALMOCO(11, 16),
+	JANTAR(16, 24);
 	
 	private final int inicio;
 	private final int fim;
@@ -26,13 +26,13 @@ public enum PeriodoDeRefeicao {
 	}
 	
 	public static PeriodoDeRefeicao calculaPeriodo(int hora) {
-		if(MANHA.inicio <= hora && hora < MANHA.fim) {
-			return MANHA;
+		if(CAFE.inicio <= hora && hora < CAFE.fim) {
+			return CAFE;
 		}
-		else if(TARDE.inicio <= hora && hora < TARDE.fim) {
-			return TARDE;
+		else if(ALMOCO.inicio <= hora && hora < ALMOCO.fim) {
+			return ALMOCO;
 		}
-		return NOITE;
+		return JANTAR;
 	}
 
 	public static boolean mesmoPeriodo(Calendar data1, Calendar data2) {

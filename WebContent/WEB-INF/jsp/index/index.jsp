@@ -75,14 +75,33 @@ td {
 		</tr>
 	</table>
 	
+	<h4>Período de refeição</h4>
+	<table>
+		<tr>
+			<td>URL:</td>
+			<td>http://valinhos.ime.usp.br:56080/usp-mobile/bandejao/<b>NOME</b>/periodo</td>
+			<td><b>NOME</b> é algum algum dos bandejões listados ou <a href="http://valinhos.ime.usp.br:56080/usp-mobile/bandejao/mock">mock</a> (para testes)</td>
+		</tr>
+		<tr>
+			<td>Método HTTP:</td>
+			<td>GET</td>
+		</tr>
+		<tr>
+			<td>Resposta:</td>
+			<td><b>PERIODO</b></td>
+			<td><b>PERIODO</b> é algum dos seguintes valores: CAFE, ALMOCO, JANTAR</td>
+		</tr>
+	</table>
+	
 	<h3>Portões</h3>
 	
 	<h4>Adicionar comentário do portão</h4>
 	<table>
 		<tr>
 			<td>URL:</td>
-			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b></td>
-			<td><b>NUMERO</b> é o número do portão (1,2,3)</td>
+			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b>/<b>SENTIDO</b></td>
+			<td><b>NUMERO</b> é o número do portão (1,2,3 ou 100 para mock)</td>
+			<td><b>SENTIDO</b> é sentido ENTRANDO ou SAINDO</td>
 		</tr>
 		<tr>
 			<td>Método HTTP:</td>
@@ -104,8 +123,9 @@ td {
 	<table>
 		<tr>
 			<td>URL:</td>
-			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b></td>
-			<td><b>NUMERO</b> é o número do portão (1,2,3)</td>
+			<td>http://valinhos.ime.usp.br:56080/usp-mobile/portao/<b>NUMERO</b>/<b>SENTIDO</b></td>
+			<td><b>NUMERO</b> é o número do portão (1,2,3 ou 100 para mock)</td>
+			<td><b>SENTIDO</b> é sentido ENTRANDO ou SAINDO</td>
 		</tr>
 		<tr>
 			<td>Método HTTP:</td>
@@ -119,7 +139,7 @@ td {
 		<tr>
 			<td>JSON de resposta:</td>
 			<td>{"list":[{"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>, "latitude":<b>LATITUDE</b>, "longitude":<b>LONGITUDE</b>, "comentario":"algum comentario"}, {"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>}]}</td>
-			<td><b>NUMERO_DO_PORTAO</b> é 1, 2, ou 3</td>
+			<td><b>NUMERO_DO_PORTAO</b> é 1, 2, 3, ou 100</td>
 			<td><b>TIMESTAMP</b> é o timestamp em milisegundos do comentário</td>
 			<td><b>LATITUDE</b> e <b>LONGITUDE</b> são os valores na hora do comentário (tipo double)</td>
 			<td>Os únicos valores que sempre estarão presentes são o número do portão e o timestamp. Todos os outros valores são opcionais.</td>

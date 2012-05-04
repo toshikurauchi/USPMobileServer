@@ -17,21 +17,21 @@ public class PeriodoDeRefeicaoTest {
 	@Test
 	public void calculaPeriodoDoCafeDaManha() throws Exception {
 		for(int hora = 0; hora < 11; hora++) {
-			assertEquals(PeriodoDeRefeicao.MANHA, PeriodoDeRefeicao.calculaPeriodo(hora));
+			assertEquals(PeriodoDeRefeicao.CAFE, PeriodoDeRefeicao.calculaPeriodo(hora));
 		}
 	}
 	
 	@Test
 	public void calculaPeriodoDoAlmoco() throws Exception {
 		for(int hora = 11; hora < 16; hora++) {
-			assertEquals(PeriodoDeRefeicao.TARDE, PeriodoDeRefeicao.calculaPeriodo(hora));
+			assertEquals(PeriodoDeRefeicao.ALMOCO, PeriodoDeRefeicao.calculaPeriodo(hora));
 		}
 	}
 	
 	@Test
 	public void calculaPeriodoDaJanta() throws Exception {
 		for(int hora = 16; hora < 24; hora++) {
-			assertEquals(PeriodoDeRefeicao.NOITE, PeriodoDeRefeicao.calculaPeriodo(hora));
+			assertEquals(PeriodoDeRefeicao.JANTAR, PeriodoDeRefeicao.calculaPeriodo(hora));
 		}
 	}
 	

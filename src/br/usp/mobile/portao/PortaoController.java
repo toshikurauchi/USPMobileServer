@@ -1,7 +1,7 @@
 package br.usp.mobile.portao;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -19,15 +19,17 @@ import com.google.gson.GsonBuilder;
 public class PortaoController {
 	private Result result;
 	private PortaoDAO dao;
+	private static List<ComentarioDoPortao> comentariosMock;
 
 	public PortaoController(Result result, PortaoDAO dao) {
 		this.result = result;
 		this.dao = dao;
+		inicializaComentariosMock();
 	}
 	
-	@Path("/portao/{numero}")
+	@Path("/portao/{numero}/{sentido}")
 	@Post
-	public void adicionaComentario(ComentarioDoPortao comentario, int numero) {
+	public void adicionaComentario(ComentarioDoPortao comentario, int numero, Sentido sentido) {
 		if(!portaoValido(numero)) {
 			result.notFound();
 			return;
@@ -36,36 +38,51 @@ public class PortaoController {
 			comentario = new ComentarioDoPortao();
 		}
 		comentario.setNumero(numero);
+		comentario.setSentido(sentido);
 		if(comentario.getTimestamp() == null) {
 			comentario.setTimestamp(System.currentTimeMillis());
 		}
 		
-		dao.insere(comentario);
+		if(portaoMock(numero)) {
+			inicializaComentariosMock();
+			comentariosMock.add(comentario);
+		}
+		else {
+			dao.insere(comentario);
+		}
+		
 		result.nothing();
 	}
 
-	@Path("/portao/{numero}")
+	@Path("/portao/{numero}/{sentido}")
 	@Get
-	public void listaComentarios(int numero, Long aPartirDe) {
+	public void listaComentarios(int numero, Long aPartirDe, Sentido sentido) {
 		if(!portaoValido(numero)) {
 			result.notFound();
 			return;
 		}
 		
 		List<ComentarioDoPortao> comentarios;
-		if(aPartirDe == null) {
-			comentarios = dao.listaComentariosDoPortaoDaUltimaHora(numero);
+		if(portaoMock(numero)) {
+			comentarios = comentariosMock;
+		}
+		else if(aPartirDe == null) {
+			comentarios = dao.listaComentariosDoPortaoDaUltimaHora(numero, sentido);
 		}
 		else {
-			comentarios = dao.listaComentariosDoPortaoAPartirDe(numero, aPartirDe);
+			comentarios = dao.listaComentariosDoPortaoAPartirDe(numero, aPartirDe, sentido);
 		}
 		result.use(Results.http()).body(criaStringDeJSON(comentarios));
 	}
 	
+	private boolean portaoMock(int numero) {
+		return numero == 100;
+	}
+
 	private String criaStringDeJSON(final List<ComentarioDoPortao> comentarios) {
 		Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
 			public boolean shouldSkipField(FieldAttributes field) {
-				return field.getName().equals("id");
+				return field.getName().equals("id") || field.getName().equals("sentido");
 			}
 			
 			public boolean shouldSkipClass(Class<?> arg0) {
@@ -76,7 +93,7 @@ public class PortaoController {
 	}
 
 	private boolean portaoValido(int numero) {
-		return numero == 1 || numero == 2 || numero == 3;
+		return numero == 1 || numero == 2 || numero == 3 || numero == 100;
 	}
 	
 	private class ComentariosDoPortao {
@@ -84,6 +101,18 @@ public class PortaoController {
 		
 		public ComentariosDoPortao(List<ComentarioDoPortao> comentarios) {
 			list = comentarios;
+		}
+	}
+	
+	private void inicializaComentariosMock() {	
+		if(comentariosMock == null || comentariosMock.size() > 1000) {
+			comentariosMock = new ArrayList<ComentarioDoPortao>();
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.ENTRANDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.SAINDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, null, Sentido.ENTRANDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, null, null, Sentido.ENTRANDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO));
 		}
 	}
 }

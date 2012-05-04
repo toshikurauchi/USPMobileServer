@@ -16,7 +16,7 @@ import br.com.caelum.vraptor.view.Results;
 @Resource
 public class BandejaoController {
 	private Result result;
-	private List<Comentario> comentariosMock;
+	private static List<Comentario> comentariosMock;
 	private Collection<String> bandejoes;
 	private ComentarioDAO dao;
 
@@ -41,9 +41,7 @@ public class BandejaoController {
 	public void adiciona(Comentario comentario, String nome) {
 		comentario.setHora(Calendar.getInstance());
 		if(isMock(nome)) {
-			if(comentariosMock.size() > 500) {
-				inicializaMock();
-			}
+			inicializaMock();
 			comentario.setBandejao(nome);
 			comentariosMock.add(comentario);
 			
@@ -72,6 +70,13 @@ public class BandejaoController {
 		else {
 			result.notFound();
 		}
+	}
+	
+	@Path("/bandejao/{nome}/periodo")
+	@Get
+	public void periodo(String nome) {
+		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		result.use(Results.http()).body(periodo.name());
 	}
 
 	private String criaStringDeJSON(List<Comentario> comentarios) {
@@ -107,8 +112,10 @@ public class BandejaoController {
 	}
 	
 	private void inicializaMock() {
-		comentariosMock = new ArrayList<Comentario>();
-		comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA, Calendar.getInstance()));
-		comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA, Calendar.getInstance()));
+		if(comentariosMock == null || comentariosMock.size() > 500) {
+			comentariosMock = new ArrayList<Comentario>();
+			comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA, Calendar.getInstance()));
+			comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA, Calendar.getInstance()));
+		}
 	}
 }
