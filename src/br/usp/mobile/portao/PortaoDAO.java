@@ -26,7 +26,7 @@ public class PortaoDAO {
 	public List<ComentarioDoPortao> listaComentariosDoPortaoAPartirDe(int numero, long timestamp, Sentido sentido) {
 		return session.createQuery("from ComentarioDoPortao as c " +
 						    "where c.numero = :numero and " +
-						          "c.timestamp >= :timestamp" +
+						          "c.timestamp >= :timestamp and" +
 						    	  "c.sentido = :sentido")
 	        .setParameter("numero", numero)
 	        .setParameter("timestamp", timestamp)
