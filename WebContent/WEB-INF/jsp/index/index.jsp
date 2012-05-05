@@ -113,7 +113,7 @@ td {
 		</tr>
 		<tr>
 			<td>Formato (TODOS os parâmetros são opcionais!):</td>
-			<td>comentario.timestamp=<b>TIMESTAMP</b>&comentario.latitude=<b>LATITUDE</b>&comentario.longitude=<b>LONGITUDE</b>&comentario.comentario=algum comentário</td>&comentario.idDoUsuario=<b>ID_DO_USUARIO</b>&comentario.distanciaAoPortao=<b>DISTANCIA</b>
+			<td>comentario.timestamp=<b>TIMESTAMP</b>&comentario.latitude=<b>LATITUDE</b>&comentario.longitude=<b>LONGITUDE</b>&comentario.comentario=algum comentário&comentario.idDoUsuario=<b>ID_DO_USUARIO</b>&comentario.distanciaAoPortao=<b>DISTANCIA</b></td>
 			<td><b>TIMESTAMP</b> timestamp em milisegundos do comentário (se não for fornecido será utilizada a hora de chegada no servidor)</td>
 			<td><b>LATITUDE</b> e <b>LONGITUDE</b> doubles com a latitude e a longitude do momento do comentário</td>
 			<td><b>ID_DO_USUARIO</b> string de identificação do usuário (para atualização de posição)</td>
