@@ -113,9 +113,11 @@ td {
 		</tr>
 		<tr>
 			<td>Formato (TODOS os parâmetros são opcionais!):</td>
-			<td>comentario.timestamp=<b>TIMESTAMP</b>&comentario.latitude=<b>LATITUDE</b>&comentario.longitude=<b>LONGITUDE</b>&comentario.comentario=algum comentário</td>
+			<td>comentario.timestamp=<b>TIMESTAMP</b>&comentario.latitude=<b>LATITUDE</b>&comentario.longitude=<b>LONGITUDE</b>&comentario.comentario=algum comentário</td>&comentario.idDoUsuario=<b>ID_DO_USUARIO</b>&comentario.distanciaAoPortao=<b>DISTANCIA</b>
 			<td><b>TIMESTAMP</b> timestamp em milisegundos do comentário (se não for fornecido será utilizada a hora de chegada no servidor)</td>
 			<td><b>LATITUDE</b> e <b>LONGITUDE</b> doubles com a latitude e a longitude do momento do comentário</td>
+			<td><b>ID_DO_USUARIO</b> string de identificação do usuário (para atualização de posição)</td>
+			<td><b>DISTANCIA</b> double com a distância ao portão</td>
 		</tr>
 	</table>
 	
@@ -138,10 +140,12 @@ td {
 		</tr>
 		<tr>
 			<td>JSON de resposta:</td>
-			<td>{"list":[{"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>, "latitude":<b>LATITUDE</b>, "longitude":<b>LONGITUDE</b>, "comentario":"algum comentario"}, {"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>}]}</td>
+			<td>{"list":[{"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>, "latitude":<b>LATITUDE</b>, "longitude":<b>LONGITUDE</b>, "comentario":"algum comentario", "idDoUsuario":"<b>ID_DO_USUARIO</b>", "distanciaAoPortao":<b>DISTANCIA</b>}, {"numero":<b>NUMERO_DO_PORTAO</b>, "timestamp":<b>TIMESTAMP</b>}]}</td>
 			<td><b>NUMERO_DO_PORTAO</b> é 1, 2, 3, ou 100</td>
 			<td><b>TIMESTAMP</b> é o timestamp em milisegundos do comentário</td>
 			<td><b>LATITUDE</b> e <b>LONGITUDE</b> são os valores na hora do comentário (tipo double)</td>
+			<td><b>ID_DO_USUARIO</b> string de identificação do usuário (para atualização de posição)</td>
+			<td><b>DISTANCIA</b> double com a distância ao portão</td>
 			<td>Os únicos valores que sempre estarão presentes são o número do portão e o timestamp. Todos os outros valores são opcionais.</td>
 		</tr>
 	</table>

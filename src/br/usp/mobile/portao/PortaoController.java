@@ -107,12 +107,14 @@ public class PortaoController {
 	private void inicializaComentariosMock() {	
 		if(comentariosMock == null || comentariosMock.size() > 1000) {
 			comentariosMock = new ArrayList<ComentarioDoPortao>();
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.ENTRANDO));
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.SAINDO));
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, null, Sentido.ENTRANDO));
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, null, null, Sentido.ENTRANDO));
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO));
-			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.ENTRANDO, 100.45, "toshi"));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.ENTRANDO, 100.45, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.ENTRANDO, null, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, "Algum comentário", Sentido.SAINDO, null, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, 2345.2345, null, Sentido.ENTRANDO, null, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, 4312.4321, null, null, Sentido.ENTRANDO, null, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO, null, null));
+			comentariosMock.add(new ComentarioDoPortao(0, 12345678l, null, null, null, Sentido.ENTRANDO, null, null));
 		}
 	}
 }

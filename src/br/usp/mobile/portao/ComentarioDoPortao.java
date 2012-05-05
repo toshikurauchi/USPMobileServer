@@ -25,16 +25,20 @@ public class ComentarioDoPortao {
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Sentido sentido;
+	private String idDoUsuario;
+	private Double distanciaAoPortao;
 	
 	public ComentarioDoPortao() {
 	}
 	
-	public ComentarioDoPortao(int numero, Long timestamp, Double latitude, Double longitude, String comentario, Sentido sentido) {
+	public ComentarioDoPortao(int numero, Long timestamp, Double latitude, Double longitude, String comentario, Sentido sentido, Double distanciaAoPortao, String idDoUsuario) {
 		this.numero = numero;
 		this.timestamp = timestamp;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.comentario = comentario;
+		this.distanciaAoPortao = distanciaAoPortao;
+		this.idDoUsuario = idDoUsuario;
 		this.setSentido(sentido);
 	}
 
@@ -46,7 +50,7 @@ public class ComentarioDoPortao {
 		this.numero = numero;
 	}
 
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -94,4 +98,21 @@ public class ComentarioDoPortao {
 		this.id = id;
 	}
 
+	public String getIdDoUsuario() {
+		return idDoUsuario;
+	}
+
+	public void setIdDoUsuario(String idDoUsuario) {
+		this.idDoUsuario = idDoUsuario;
+	}
+
+	public Double getDistanciaAoPortao() {
+		return distanciaAoPortao;
+	}
+
+	public void setDistanciaAoPortao(Double distanciaAoPortao) {
+		this.distanciaAoPortao = distanciaAoPortao;
+	}
+
+	
 }
