@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -12,6 +13,11 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
+
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Resource
 public class BandejaoController {
@@ -39,7 +45,8 @@ public class BandejaoController {
 	@Path("/bandejao/{nome}")
 	@Post
 	public void adiciona(Comentario comentario, String nome) {
-		comentario.setHora(Calendar.getInstance());
+		Calendar hora = horaAtual();
+		comentario.setHora(hora);
 		if(isMock(nome)) {
 			inicializaMock();
 			comentario.setBandejao(nome);
@@ -80,27 +87,15 @@ public class BandejaoController {
 	}
 
 	private String criaStringDeJSON(List<Comentario> comentarios) {
-		boolean primeiro = true;
-		StringBuilder jsonBuilder = new StringBuilder();
-		jsonBuilder.append("{\"list\":[");
-		for (Comentario comentario : comentarios) {
-			if(primeiro) {
-				primeiro = false;
+		Gson gson = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
+			public boolean shouldSkipField(FieldAttributes field) {
+				return field.getName().equals("hora");
 			}
-			else {
-				jsonBuilder.append(",");
+			public boolean shouldSkipClass(Class<?> arg0) {
+				return false;
 			}
-			jsonBuilder.append("{\"texto\":\"" + 
-								comentario.getTexto() + 
-								"\",\"hora\":\"" + 
-								comentario.getHoraFormatada() + 
-								"\",\"fila\":\"" +
-								comentario.getFila() +
-								"\"}");
-			
-		}
-		jsonBuilder.append("]}");
-		return jsonBuilder.toString();
+		}).create();
+		return gson.toJson(new ComentariosDeBandejao(comentarios));
 	}
 
 	private boolean isMock(String nome) {
@@ -114,8 +109,23 @@ public class BandejaoController {
 	private void inicializaMock() {
 		if(comentariosMock == null || comentariosMock.size() > 500) {
 			comentariosMock = new ArrayList<Comentario>();
-			comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA, Calendar.getInstance()));
-			comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA, Calendar.getInstance()));
+			comentariosMock.add(new Comentario("Peixe duro", TamanhoDaFila.PEQUENA, horaAtual()));
+			comentariosMock.add(new Comentario("Não tem fila!", TamanhoDaFila.SEM_FILA, horaAtual()));
+		}
+	}
+
+	private Calendar horaAtual() {
+		return Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
+	}
+	
+	private class ComentariosDeBandejao {
+		public List<Comentario> list;
+		
+		public ComentariosDeBandejao(List<Comentario> comentarios) {
+			list = comentarios;
+			for(Comentario comentario : comentarios) {
+				comentario.calculaHoraFormatada();
+			}
 		}
 	}
 }
