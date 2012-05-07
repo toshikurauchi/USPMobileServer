@@ -1,5 +1,7 @@
 package br.usp.mobile.bandejao;
 
+import static br.usp.mobile.bandejao.calendar.CalendarUtil.horaAtual;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class ComentarioDAO {
 	}
 
 	public List<Comentario> listaComentariosAtuaisDo(String nome) {
-		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(horaAtual().get(Calendar.HOUR_OF_DAY));
 		return session.createQuery("from Comentario as c " +
 								   "where c.bandejao = :bandejao and " +
 								         "c.hora >= :inicioPeriodo and " +

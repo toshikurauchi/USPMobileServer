@@ -1,11 +1,12 @@
 package br.usp.mobile.bandejao;
 
+import static br.usp.mobile.bandejao.calendar.CalendarUtil.horaAtual;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TimeZone;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -82,7 +83,7 @@ public class BandejaoController {
 	@Path("/bandejao/{nome}/periodo")
 	@Get
 	public void periodo(String nome) {
-		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(horaAtual().get(Calendar.HOUR_OF_DAY));
 		result.use(Results.http()).body(periodo.name());
 	}
 
@@ -114,10 +115,6 @@ public class BandejaoController {
 		}
 	}
 
-	private Calendar horaAtual() {
-		return Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
-	}
-	
 	private class ComentariosDeBandejao {
 		public List<Comentario> list;
 		
