@@ -5,8 +5,8 @@ import java.util.Calendar;
 import br.usp.mobile.bandejao.calendar.CalendarUtil;
 
 public enum PeriodoDeRefeicao {
-	CAFE(0, 11),
-	ALMOCO(11, 16),
+	CAFE(0, 10),
+	ALMOCO(10, 16),
 	JANTAR(16, 24);
 	
 	private final int inicio;

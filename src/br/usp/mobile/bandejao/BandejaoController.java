@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -80,10 +81,16 @@ public class BandejaoController {
 		}
 	}
 	
+	@Path("/bandejao/{nome}/post")
+	@Post
+	public void post(String nome) {
+		result.include("nome", nome);
+	}
+	
 	@Path("/bandejao/{nome}/periodo")
 	@Get
 	public void periodo(String nome) {
-		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(horaAtual().get(Calendar.HOUR_OF_DAY));
+		PeriodoDeRefeicao periodo = PeriodoDeRefeicao.calculaPeriodo(Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo")).get(Calendar.HOUR_OF_DAY));
 		result.use(Results.http()).body(periodo.name());
 	}
 

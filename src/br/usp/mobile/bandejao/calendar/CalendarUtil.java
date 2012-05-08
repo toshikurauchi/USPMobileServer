@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class CalendarUtil {
 
@@ -28,6 +27,6 @@ public class CalendarUtil {
 	}
 
 	public static Calendar horaAtual() {
-		return Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
+		return Calendar.getInstance();
 	}
 }
